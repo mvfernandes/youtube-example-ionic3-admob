@@ -5,18 +5,41 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
+declare var admob;
+
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = TabsPage;
+  rootPage: any = TabsPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
+      this.runAds();
       statusBar.styleDefault();
       splashScreen.hide();
+
     });
+  }
+
+  runAds() {
+    const admobid = {
+      banner: 'ca-app-pub-3940256099942544/6300978111',
+      interstitial: 'ca-app-pub-3940256099942544/1033173712',
+    }
+    admob.banner.config({
+      id: admobid.banner,
+      isTesting: true,
+      autoShow: true,
+    })
+    admob.banner.prepare()
+
+    admob.interstitial.config({
+      id: admobid.interstitial,
+      isTesting: true,
+      autoShow: false,
+    })
+    admob.interstitial.prepare()
+
   }
 }
